@@ -12,6 +12,16 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar>
+			<shell:ApplicationBar.MenuItems>
+				<shell:ApplicationBarMenuItem x:Name="AboutMenuApp" Text="О приложении"/>
+				<shell:ApplicationBarMenuItem x:Name="RateAppMenu" Text="Оценить приложение"/>
+			</shell:ApplicationBar.MenuItems>
+			<shell:ApplicationBarIconButton x:Name="ShareButton" IconUri="/Assets/AppBar/appbar.share.rest.png" Text="Поделиться" Click="ShareButton_OnClick"/>
+			<shell:ApplicationBarIconButton x:Name="HistoryListButton" IconUri="/Assets/AppBar/appbar.folder.rest.png" Text="История"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
   <!--LayoutRoot представляет корневую сетку, где размещается все содержимое страницы-->
   <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -28,23 +38,37 @@
 
     <!--ContentPanel — поместите здесь дополнительное содержимое-->
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-      <Button Content="Начать игру" Name="StartGameButton" Click="StartGameButton_OnClick"/>
       <StackPanel>
-        <Rectangle x:Name="Track" Width="400" Height="80" Stroke="#FFC0C0C0"
+        <Button Content="Начать игру" Name="StartGameButton" Click="StartGameButton_OnClick"/>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+          <ColumnDefinition Width="*"></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0">
+            <TextBlock Text="0" Name="FirstPlayerTime" HorizontalAlignment="Center" FontSize="48"></TextBlock>
+          </StackPanel>
+          <StackPanel Grid.Column="1">
+            <TextBlock Text="0" Name="SecondPlayerTime" HorizontalAlignment="Center" FontSize="48"></TextBlock>
+          </StackPanel>
+        </Grid>
+        <Grid Margin="0,50,0,0">
+          <Rectangle x:Name="Track" Width="400" Height="80" Stroke="#FFC0C0C0"
             RadiusX="40" RadiusY="40" />
-        <Line Stroke="#FFC0C0C0" X1="0" Y1="0" X2="0" Y2="120"
-            HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Ellipse x:Name="Ball" Width="80" Height="80">
-            <Ellipse.Fill>
-                <RadialGradientBrush GradientOrigin="0.234,0.255">
-                    <GradientStop Color="White"/>
-                    <GradientStop Color="Red" Offset="0.759"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-            <Ellipse.RenderTransform>
-                <TranslateTransform x:Name="BallTransform" />
-            </Ellipse.RenderTransform>
-        </Ellipse>
+          <Line Stroke="#FFC0C0C0" X1="0" Y1="0" X2="0" Y2="120"
+              HorizontalAlignment="Center" VerticalAlignment="Center" />
+          <Ellipse x:Name="Ball" Width="80" Height="80">
+              <Ellipse.Fill>
+                  <RadialGradientBrush GradientOrigin="0.234,0.255">
+                      <GradientStop Color="White"/>
+                      <GradientStop Color="Red" Offset="0.759"/>
+                  </RadialGradientBrush>
+              </Ellipse.Fill>
+              <Ellipse.RenderTransform>
+                  <TranslateTransform x:Name="BallTransform" />
+              </Ellipse.RenderTransform>
+          </Ellipse>
+        </Grid>
       </StackPanel>
 <!--<StackPanel Margin="0" Orientation="Vertical" VerticalAlignment="Top" Width="400">
     <Button Click="ButtonBase_OnClick" Height="78" Content="Start" />
