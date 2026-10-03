@@ -40,11 +40,20 @@ namespace ArmwrestlingAppWP
                 x = -0.5;
 
             // Pass the value to the UI thread
-            Dispatcher.BeginInvoke(() => UpdateDisplay(x));
+            int gameVersion = _gameVersion;
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (gameVersion == _gameVersion)
+                    UpdateDisplay(x);
+            });
         }
 
         private void UpdateDisplay(double x)
         {
+            // A reading already queued on the dispatcher can outlive Stop().
+            if (!GameStarted)
+                return;
+
             // Move the ball to the specified position
             BallTransform.X = -x * (Track.Width - Ball.Width);
 
@@ -71,6 +80,7 @@ namespace ArmwrestlingAppWP
         private Accelerometer _accel = new Accelerometer();
 
         private bool _gameStarted;
+        private int _gameVersion;
         /// <summary>
         /// 
         /// </summary>
@@ -140,12 +150,15 @@ namespace ArmwrestlingAppWP
             }
             else
             {
+                _gameVersion++;
                 StartGameButton.Content = "Закончить игру";
                 GameStarted = true;
                 GameStartedTime = DateTime.Now;
                 CurrentTime = DateTime.Now;
                 FirstPlayer = 0;
                 SecondPlayer = 0;
+                FirstPlayerTime.Text = "0";
+                SecondPlayerTime.Text = "0";
                 _accel.Start();
             }
             //throw new NotImplementedException();
